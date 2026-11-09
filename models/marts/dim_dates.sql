@@ -4,16 +4,15 @@
 ) }}
 
 with date_spine as (
-    select 
-        generate_series(
-            (select min(order_date) from {{ ref('fct_orders') }}),
-            (select max(order_date) from {{ ref('fct_orders') }}),
-            interval '1 day'
-        )::date as date_day
+    {{ dbt_utils.date_spine(
+        datepart="day",
+        start_date="cast('2026-03-01' as date)",
+        end_date="cast('2026-07-12' as date)"
+    ) }}
 )
 
 select
-    date_day,
+    date_day::date as date_day,
     extract(year from date_day) as year,
     extract(quarter from date_day) as quarter,
     extract(month from date_day) as month,
