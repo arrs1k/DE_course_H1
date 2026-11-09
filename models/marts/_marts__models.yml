@@ -41,7 +41,7 @@ models:
       - name: first_paid_at
         description: "Время первой успешной оплаты; пусто, если оплат нет."
       - name: is_confirmed
-        description: "Подтверждённая покупка: статус paid и хотя бы одна успешная оплата."
+        description: '{{ doc("confirmed_order") }}'
         data_tests: [not_null]
       - name: items_count
         description: "Количество разных товаров в заказе."
