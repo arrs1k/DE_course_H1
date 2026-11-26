@@ -34,6 +34,7 @@ jdbc = dict(
 query = """
     SELECT category_id
          , category_name
+         , parent_category_id
     FROM public.product_categories
 """
 
@@ -52,3 +53,4 @@ df_categories = (
 )
 
 print(f"Сохранено: {CATEGORIES_PATH}, строк: {df_categories.count()}")
+

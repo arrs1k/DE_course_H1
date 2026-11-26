@@ -37,7 +37,8 @@ query = """
          , order_id
          , product_id
          , quantity
-         , item_price
+         , unit_price
+         , discount_amount
     FROM public.order_items
 """
 
@@ -56,3 +57,4 @@ df_order_items = (
 )
 
 print(f"Сохранено: {ORDER_ITEMS_PATH}, строк: {df_order_items.count()}")
+

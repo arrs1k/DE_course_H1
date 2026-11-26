@@ -32,6 +32,7 @@ start_date = load_date - timedelta(days=3)
 df_int = (
     spark.read.parquet(f"s3a://{BUCKET}/intermediate/int_orders_with_payments")
     .filter((F.col("order_date") >= start_date) & (F.col("order_date") < load_date))
+    .filter(~F.col("is_test_order"))
 )
 
 df_customers = spark.read.parquet(f"s3a://{BUCKET}/raw/customers")
@@ -44,24 +45,14 @@ df_fct = (
         F.col("o.customer_id"),
         F.col("c.city").alias("customer_city"),
         F.col("c.acquisition_channel"),
-        F.col("c.registered_at"),
         F.col("o.ordered_at"),
         F.col("o.order_date"),
         F.col("o.order_status"),
         F.col("o.order_amount"),
         F.col("o.paid_amount"),
-        F.col("o.refund_amount"),
         F.col("o.net_paid_amount"),
-        F.col("o.is_paid"),
-        F.col("o.payments_count"),
-        F.col("o.success_payments_count"),
-        F.col("o.failed_payments_count"),
-        F.col("o.first_paid_at"),
-        F.col("o.last_paid_at"),
-    )
-    .withColumn(
-        "days_since_registration",
-        F.datediff(F.col("order_date"), F.to_date(F.col("registered_at"))),
+        F.col("o.is_confirmed"),
+        F.datediff(F.col("o.order_date"), F.to_date(F.col("c.registered_at"))).alias("days_since_registration"),
     )
 )
 
@@ -74,3 +65,4 @@ df_fct = (
 )
 
 print(f"Сохранено: {MART_PATH}")
+
