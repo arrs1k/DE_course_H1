@@ -33,12 +33,7 @@ jdbc = dict(
 
 # Полный снимок: в public.order_items нет поля с датой/временем
 query = """
-    SELECT order_item_id
-         , order_id
-         , product_id
-         , quantity
-         , unit_price
-         , discount_amount
+    SELECT *
     FROM public.order_items
 """
 
@@ -57,4 +52,5 @@ df_order_items = (
 )
 
 print(f"Сохранено: {ORDER_ITEMS_PATH}, строк: {df_order_items.count()}")
+
 

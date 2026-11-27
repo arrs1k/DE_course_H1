@@ -32,11 +32,7 @@ jdbc = dict(
 )
 
 query = """
-    SELECT product_id
-         , product_name
-         , category_id
-         , price
-         , is_active
+    SELECT *
     FROM public.products
 """
 
@@ -55,3 +51,4 @@ df_products = (
 )
 
 print(f"Сохранено: {PRODUCTS_PATH}, строк: {df_products.count()}")
+
